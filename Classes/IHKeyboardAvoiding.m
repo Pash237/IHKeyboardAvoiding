@@ -44,6 +44,13 @@ static IHKeyboardAvoidingBlock _avoidingBlock;
         keyboardFrame = [self getOrientedRect:keyboardFrame];
         // keyboardHeightDiff used when user is switching between different keyboards that have different heights
         CGRect keyboardFrameBegin = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+        
+        // hack for bug since iOS 11.2
+        CGRect keyboardFrameEnd = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        if (keyboardFrameEnd.size.height > keyboardFrameBegin.size.height) {
+            keyboardFrameBegin = CGRectMake(keyboardFrameBegin.origin.x, keyboardFrameBegin.origin.y, keyboardFrameBegin.size.width, keyboardFrameEnd.size.height);
+        }
+        
         int keyboardHeightDiff = 0;
         if (keyboardFrameBegin.size.height > 0) {
             keyboardHeightDiff = [self getOrientedRect:keyboardFrameBegin].size.height - keyboardFrame.size.height;
