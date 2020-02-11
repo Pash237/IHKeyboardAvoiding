@@ -345,7 +345,7 @@ static IHKeyboardAvoidingBlock _avoidingBlock;
 + (void)applicationDidEnterBackground:(NSNotification *)notification
 {
     // Autolayout is reset when app goes into background, so we need to dismiss the keyboard too
-    UIWindow *window = [UIApplication sharedApplication].windows[0];
+    UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
     [window.rootViewController.view endEditing:YES];
 }
 
